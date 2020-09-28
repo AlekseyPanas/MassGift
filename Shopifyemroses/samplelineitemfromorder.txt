@@ -1,0 +1,59 @@
+"line_items":[
+	{
+		"id":5884198453406,
+		"variant_id":36180779729054,
+		"title":"Minecraft Gaming Chair",
+		"quantity":1,
+		"sku":"0001",
+		"variant_title":"Red",
+		"vendor":"KnorrCS",
+		"fulfillment_service": "manual",
+		"product_id":5712679207070,
+		"requires_shipping":true,
+		"taxable":true,
+		"gift_card":false,
+		"name":"Minecraft Gaming Chair - Red",
+		"variant_inventory_management":"shopify",
+		"properties":[],
+		"product_exists":true,
+		"fulfillable_quantity":1,
+		"grams":20412,
+		"price":"1.00",
+		"total_discount":"0.00",
+		"fulfillment_status":null,
+		"price_set":{
+			"shop_money":{
+				"amount":"1.00",
+				"currency_code":"USD"
+			},
+			"presentment_money":{
+				"amount":"1.00",
+				"currency_code":"USD"
+			}
+		},
+		"total_discount_set":{
+			"shop_money":{
+				"amount":"0.00",
+				"currency_code":"USD"
+			},
+			"presentment_money":{
+				"amount":"0.00",
+				"currency_code":"USD"
+			}
+		},
+		"discount_allocations":[],
+		"duties":[],
+		"admin_graphql_api_id":"gid:\/\/shopify\/LineItem\/5884198453406",
+		"tax_lines":[],
+		"origin_location":{
+			"id":2368644317342,
+			"country_code":"US",
+			"province_code":"NY",
+			"name":"Testing Environment Alex",
+			"address1":"141 Olympia Boulevard",
+			"address2":"",
+			"city":"Staten Island",
+			"zip":"10305"
+		}
+	}
+]

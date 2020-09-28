@@ -1,0 +1,28 @@
+Useful Links:
+--------------------
+
+Checkout API tutorial:
+https://shopify.dev/tutorials/sell-through-the-checkout-api
+
+Custom Shopify Checkout:
+https://www.brihaspatitech.com/blog/custom-shopify-checkout-app-development/
+
+
+Project Resources:
+---------------------
+
+OrderID from status page:
+https://community.shopify.com/c/Shopify-APIs-SDKs/Order-ID-in-Order-Status-Page/td-p/790170
+https://community.shopify.com/c/Shopify-APIs-SDKs/Getting-the-order-id-on-the-thank-you-page/td-p/121219
+
+Get cart from frontend:
+https://nozzlegear.com/shopify/using-javascript-to-manage-a-shopify-cart
+
+Mutations Tutorial (useful for creation requests):
+https://shopify.dev/docs/storefront-api/reference/mutation
+
+Checkout Create Mutation:
+https://shopify.dev/docs/storefront-api/reference/mutation/checkoutcreate
+
+ngrok tunnel:
+https://dashboard.ngrok.com/status/tunnels
