@@ -8,6 +8,13 @@ const v4 = require('uuid');
 // const { uuid } = require('uuidv4');
 var router = express.Router();
 
+
+router.get("/install", async (req, res) => {
+    `https://{shop}.myshopify.com/admin/oauth/authorize?
+    client_id={api_key}&scope={scopes}&redirect_uri={redirect_uri}&state={nonce}&grant_options[]={access_mode}`
+})
+
+
 router.get("/db-test", async (req, res) => {
     res.send(await db.get_test());
 });
@@ -58,14 +65,7 @@ router.get("/shop-info", async (req, res) => {
 
 // Webhook when order is created (payment came through)
 router.post("/order-submitted", async (req, res) => {
-    // OrderID
-    // CustomerID
-    // Line Items>
-    //      Title
-    //      productID
-    //      variantID
     let orderID = req.body.id;
-
 
     console.log(req.body);
     res.sendStatus(200);
@@ -78,26 +78,13 @@ router.post("/ajax/generate-checkout", async (req, res) => {
     // Gets cart from request body
     let cart = req.body;
 
-    console.log(cart);
-
     // Creates a list of cart items with only their variantId and quantity
-    let payload = await Promise.all((new Array(parseInt(cart.item_count))).fill(0).map(async (item, idx) => {return {
+    let payload = (await Promise.all((new Array(parseInt(cart.item_count))).fill(0).map(async (item, idx) => {return {
         "variantId": await shoputils.varID_admin2strfnt(cart[`items[${idx}][variant_id]`]), 
         "quantity": parseInt(cart[`items[${idx}][quantity]`])
-    }}));
+    }}))).filter(value => !!value.variantId);
 
-    console.log(`mutation {
-        checkoutCreate(input: {
-            lineItems: ${JSON.stringify(payload).replace(/"([^"]+)":/g, '$1:')} 
-        }) {
-            checkout {
-                id
-                webUrl
-            }
-        }
-    }
-    `)
-    console.log();
+
 
     // Creates checkout via Storefront API using the cart items as line item input
     let checkout_data = await (await fetch("https://testing-environment-alex.myshopify.com/api/2020-07/graphql.json", {
@@ -110,16 +97,41 @@ router.post("/ajax/generate-checkout", async (req, res) => {
             query: `mutation {
                         checkoutCreate(input: {
                             lineItems: ${JSON.stringify(payload).replace(/"([^"]+)":/g, '$1:')} 
+                            shippingAddress: {
+                                lastName: "Skip this step",
+                                firstName: "Skip this step",
+                                address1: "123 Skip Street",
+                                country: "Canada",
+                                zip: "H3K0X2",
+                                city: "Skip this step"
+                            }
+                            allowPartialAddresses: true
                         }) {
                             checkout {
                                 id
                                 webUrl
+                                shippingAddress {
+                                    firstName
+                                    lastName
+                                    address1
+                                    province
+                                    country
+                                    zip
+                                }
                             }
                         }
                     }
                     `
         })
     })).json()
+
+    /* lastName: "Doe",
+        firstName: "John",
+        address1: "123 Test Street",
+        province: "QC",
+        country: "Canada",
+        zip: "H3K0X2",
+        city: "Montreal" */
 
     // Set header to allow cross origin ajax
     res.header("Access-Control-Allow-Origin", "*");
@@ -136,6 +148,7 @@ router.post("/ajax/generate-checkout", async (req, res) => {
     } 
     
     else {
+        console.log(checkout_data);
         // Gets link
         let checkout_link = checkout_data.data.checkoutCreate.checkout.webUrl;
         // Gets ID

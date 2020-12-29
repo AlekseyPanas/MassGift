@@ -17,6 +17,7 @@ const await_order = async (orderID, max_tries=10) => {
 
 /* Some necessary variant ID conversion because shopify is a piece of shit! */
 const variantID_admin_2_storefront = async (admin_variantID) => { 
+
     /* Gets the storefront variant ID using the admin variant ID */
     let storefront_variantID = await (await fetch("https://testing-environment-alex.myshopify.com/admin/api/graphql.json", {
         method: "POST",
@@ -36,7 +37,7 @@ const variantID_admin_2_storefront = async (admin_variantID) => {
     })).json()
 
     // GIVE IT HERE NOW!
-    return storefront_variantID.data.productVariant.storefrontId;
+    return admin_variantID ? storefront_variantID.data.productVariant.storefrontId : null;
 }
 
 

@@ -1,5 +1,9 @@
+MAKE ALL OF THESE STEPS BE DONE AUTOMATICALLY ON INSTALL!!!
+
 1. Paste the code in textcomp-button.liquid before the <form> tag in cart.liquid in the template code page on shopify admin
 
 2. Make sure the button ajax link from textcomp-button.liquid points to the right domain
 
 3. Create "Order Created" webhook and link it to the apps endpoint: /order-submitted
+
+4. Paste the code in status-script.liquid into the "Additional Scripts" section of the checkout section

@@ -10,19 +10,16 @@ https://www.brihaspatitech.com/blog/custom-shopify-checkout-app-development/
 
 Project Resources:
 ---------------------
-
 OrderID from status page:
 https://community.shopify.com/c/Shopify-APIs-SDKs/Order-ID-in-Order-Status-Page/td-p/790170
 https://community.shopify.com/c/Shopify-APIs-SDKs/Getting-the-order-id-on-the-thank-you-page/td-p/121219
 
-Get cart from frontend:
-https://nozzlegear.com/shopify/using-javascript-to-manage-a-shopify-cart
-
-Mutations Tutorial (useful for creation requests):
-https://shopify.dev/docs/storefront-api/reference/mutation
-
-Checkout Create Mutation:
-https://shopify.dev/docs/storefront-api/reference/mutation/checkoutcreate
-
 ngrok tunnel:
 https://dashboard.ngrok.com/status/tunnels
+
+
+https://shopify.dev/tutorials/build-a-sales-channel-with-the-checkout-api#request-payment-processing
+http://gavinballard.com/shopify-oauth-flow-for-dummies/
+https://shopify.dev/tutorials/authenticate-with-oauth#the-oauth-flow
+https://shopify.dev/tools
+https://github.com/Shopify/shopify-demo-app-node-react/blob/master/server.js
