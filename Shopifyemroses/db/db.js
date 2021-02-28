@@ -36,18 +36,6 @@ const get_test = async () => {
     return result;
 }
 
-const upload_checkoutID = async (checkoutID) => {
-    // Opens connection
-    var db = await sqlite3.open('./db/emroses.db');
-
-    // Inserts checkout ID into db
-    let response = await write_query(db, "insert into checkout_ids (checkout_id) values (?)", [checkoutID]);
-
-    // Closes connection
-    db.close();
-}
-
 module.exports = {
-    get_test: () => get_test(),
-    upload_checkoutID: (checkoutID) => upload_checkoutID(checkoutID)
+    get_test: () => get_test()
 };
