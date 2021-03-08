@@ -18,10 +18,24 @@ const write_query = async (db, query, params=[]) => {
     return response;
 }
 
+const is_store_exist = async (storeURL) => {
+    // Opens connection
+    var db = await sqlite3.open('./db/app_db.db');
+
+    // Retrieves store names from stores table with the requested URL
+    let result = await db.all("SELECT shop_name FROM stores WHERE shop_name = ?;", [storeURL]);
+
+    // Closes connection
+    db.close();
+
+    // Returns if the given storeURL is in the results
+    return !!result.length;
+}
+
 // Use this function to test database functionality using the test table (Remove on app release)
 const get_test = async () => {
     // Opens connection
-    var db = await sqlite3.open('./db/test.db');
+    var db = await sqlite3.open('./db/app_db.db');
 
     // inserts into db
     await write_query(db, "insert into testtable (name) values (?)", ["PARAMETER TEST BOIIIS"]);
@@ -37,5 +51,5 @@ const get_test = async () => {
 }
 
 module.exports = {
-    get_test: () => get_test()
+    is_store_exist: (storeURL) => is_store_exist(storeURL)
 };

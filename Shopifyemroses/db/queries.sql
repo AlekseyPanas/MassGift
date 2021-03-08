@@ -1,6 +1,13 @@
 /* RUN THESE QUERIES FOR A NEW DATABASE */
 /*--------------------------------------*/
 
+CREATE TABLE "stores" (
+	"storeID"	INTEGER,
+	"API_key"	TEXT,
+	"shop_name"	TEXT,
+	PRIMARY KEY("storeID")
+);
+
 /*--------------------------------------*/
 
 
