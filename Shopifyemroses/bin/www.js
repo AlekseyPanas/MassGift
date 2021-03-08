@@ -4,12 +4,12 @@
  * Module dependencies.
  */
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 var app = require('../app');
 var debug = require('debug')('emroses:server');
 var http = require('http');
-
-const dotenv = require('dotenv');
-dotenv.config();
 
 /**
  * Get port from environment and store in Express.

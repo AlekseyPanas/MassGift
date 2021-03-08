@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  secret: "Eccola cosa che non puoi vedere",
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 }));
