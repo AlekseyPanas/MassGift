@@ -11,7 +11,7 @@ const write_query = async (db, query, params=[]) => {
         // Sets initially to true (innocent until proven guilty)
         valid = true;
         // inserts into database and catches error (specifically the BUSY error)
-        let response = await db.run(query, params).catch(err => {valid = false; /* Sets valid to false on error */ });
+        var response = await db.run(query, params).catch(err => {valid = false; /* Sets valid to false on error */ });
     };
 
     // Sends back db response (error if failed)
@@ -30,6 +30,17 @@ const is_store_exist = async (storeURL) => {
 
     // Returns if the given storeURL is in the results
     return !!result.length;
+}
+
+const add_store = async (storeURL, perm_access_token) => {
+    // Opens connection
+    var db = await sqlite3.open('./db/app_db.db');
+
+    // Inserts store into database
+    await write_query(db, "insert into stores (API_key, shop_name) values (?, ?)", [perm_access_token, storeURL]);
+
+    // Closes connection
+    db.close();
 }
 
 // Use this function to test database functionality using the test table (Remove on app release)
@@ -51,5 +62,6 @@ const get_test = async () => {
 }
 
 module.exports = {
-    is_store_exist: (storeURL) => is_store_exist(storeURL)
+    is_store_exist: (storeURL) => is_store_exist(storeURL),
+    add_store: (storeURL, perm_access_token) => add_store(storeURL, perm_access_token)
 };

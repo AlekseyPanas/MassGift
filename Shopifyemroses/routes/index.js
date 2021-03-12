@@ -34,9 +34,6 @@ router.get("/", async (req, res) => {
 // Redirect url after oauth request is sent
 router.get("/auth/callback", async (req, res) => {
 
-    console.log("URL:");
-    console.log(req.url);
-
     // Gets query parameters  code, hmac, shop, nonce
     let query_params = utils.get_query_object(req.url);
 
@@ -58,8 +55,6 @@ router.get("/auth/callback", async (req, res) => {
          (!!query_params.state && query_params.state == req.session.oauth_state_string) && // Veryify oauth state parameter
          (!!query_params.shop.match(/[a-zA-Z0-9][a-zA-Z0-9\-]*\.myshopify\.com/)) /* Validates shop name  (ie exampleshop.myshopify.com) */ ) {
 
-            console.log("VERIFIED SUCCESSFULLY")
-
             // Makes post to request the permanent access token (passes temporary code and API key/secret)
             axios.post(`https://${query_params.shop}/admin/oauth/access_token`, {
                 client_id: process.env.SHOPIFY_API_KEY,
@@ -68,18 +63,20 @@ router.get("/auth/callback", async (req, res) => {
             })
             .then((response) => {
                 
-                //TODO: Create DB Entry for store with token
-                console.log("OMG TOKEN!")
-                console.log(response.data.access_token);
+                // Adds store to database
+                db.add_store(query_params.shop, response.data.access_token);
 
-                // Run API Installation procedure (utils function)
-                res.sendStatus(200);
+                // Returns you to the store!
+                res.redirect(`https://${query_params.shop}/admin`);
 
             })
             .catch((error) => {
-                console.log("You dunn fucked")
+                console.log("An Error Has Occured:")
                 console.error(error)
             })
+    } else {
+        // Forbidden
+        res.sendStatus(403);
     }
 
 })

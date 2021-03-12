@@ -1,5 +1,6 @@
 const fetch = require("node-fetch");
 const crypto = require("crypto");
+const axios = require("axios");
 
 /* Use this to house any shopify utility functions */
 const get_query_object = (url) => {
@@ -13,10 +14,38 @@ const get_query_object = (url) => {
     return query_object
 }
 
+
+
+// Gives the result of a graphql API request. Provide store in format: examplestore.myshopify.com
+const make_api_request = async (store, access_token, resource, headers, query, api_version=process.env.SHOPIFY_API_VERSION) => {
+    // Makes a request using API Key, store, store's saved DB token, API Version, resource, Graphql query, and headers object
+    return await axios.post(`https://${process.env.SHOPIFY_API_KEY}:${access_token}@${store}/admin/api/${api_version}/${resource}.json`,
+                            {query: query}, {headers: headers}).catch((err) => {return err;})
+
+
+    /* A VALID CALL TO THIS FUNCTION:
+    
+    utils.make_api_request("exampleshop.myshopify.com", <Shop's permanent access token from DB>, "graphql", 
+                {
+                    "Content-Type": "application/json",
+                    "X-Shopify-Access-Token": <Shop's permanent access token from DB (response.data.access_token)> 
+                }, 
+                `{
+                    shop {
+                    name
+                    }
+                }`)
+    */
+}
+
+
+
 /* Generate a random string for oauth state security parameter */
 const get_state_string = () => {
     return crypto.createHash("sha256").update(crypto.randomBytes(1024)).digest("hex");
 }
+
+
 
 /* Given the parameters from a shopify redirect, returns whether its a valid signature */
 const verify_hmac = (params) => {
@@ -44,8 +73,11 @@ const verify_hmac = (params) => {
     return crypto.timingSafeEqual(Buffer.from(HMAC_string), Buffer.from(HMAC_query_parameter));
 }
 
+
+
 module.exports = {
     get_query_object: (url) => get_query_object(url),
     get_state_string: () => get_state_string(),
-    verify_hmac: (params) => verify_hmac(params)
+    verify_hmac: (params) => verify_hmac(params),
+    make_api_request: (store, access_token, resource, headers, query, api_version=process.env.SHOPIFY_API_VERSION) => make_api_request(store, access_token, resource, headers, query, api_version)
 };
